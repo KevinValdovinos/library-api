@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    (getBooks = async (url) => {
+    fetch(url, {headers: {Accept: 'application/json'}})
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            document.write("<table>"+
+                                   "<tr>"+
+                        "<th>ISBN</th>"+
+                        "<th>Título</th>"+
+                        "<th>Descripción</th>"+
+                        "<th>Fecha de publicación</th>"+
+                        "<th>Categoría</th>"+
+                        "<th>Editorial</th>"+
+                   "</tr>");
+
+            Object.entries(data.data).forEach(([key, value]) => {
+                document.write("<tr>"+
+                "<td>"+ value.isbn +"</td>"+
+                "<td>"+ value.title +"</td>"+
+                "<td>"+ value.description +"</td>"+
+                "<td>"+ value.published_date +"</td>"+
+                "<td>"+ value.category.name +"</td>"+
+                "<td>"+ value.editorial.name +"</td>"+
+            "</tr>")
+            });
+            
+            document.write("</table>");
+        })
+        .catch(err => console.log(err));
+})('http://localhost:8000/api/book/index');
+</script>
+</html>
